@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import firebase from './firebase';
 import Authentication from './Authentication';
 import MainPage from './MainPage';
+import 'bootstrap/dist/css/bootstrap.css';
 
  
 const App = () => {

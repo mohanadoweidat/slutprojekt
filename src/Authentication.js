@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import firebase from './firebase';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 
 const Authentication = () => {
   const [email, setEmail] = useState('');
@@ -17,15 +18,15 @@ const Authentication = () => {
   const handleSignUp = () => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Konto skapat
+        // Account created
         const user = userCredential.user;
-        console.log('Konto skapat:', user);
+        console.log('Account created:', user);
       })
       .catch((error) => {
-        // Fel vid skapande av konto
+        // Error creating account
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('Fel vid skapande av konto:', errorCode, errorMessage);
+        console.log('Error creating account:', errorCode, errorMessage);
         setError(errorMessage);
       });
   };
@@ -33,28 +34,43 @@ const Authentication = () => {
   const handleLogin = () => {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Inloggning lyckades
+        // Login successful
         const user = userCredential.user;
-        console.log('Inloggning lyckades:', user);
+        console.log('Login successful:', user);
       })
       .catch((error) => {
-        // Inloggning misslyckades
+        // Login failed
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('Inloggning misslyckades:', errorCode, errorMessage);
+        console.log('Login failed:', errorCode, errorMessage);
         setError(errorMessage);
       });
   };
 
   return (
-    <div>
-      <h2>Authentication</h2>
-      <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
-      <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
-      <button onClick={handleSignUp}>Sign Up</button>
-      <button onClick={handleLogin}>Log In</button>
-      {error && <p>{error}</p>}
-    </div>
+    <Container>
+      <Row className="justify-content-center">
+        <Col xs={12} md={6}>
+          <h2>Login</h2>
+          <Form>
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
+            </Form.Group>
+
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+            </Form.Group>
+
+            <Button variant="primary" onClick={handleSignUp} className="mb-3 space">Sign Up</Button>
+            <Button variant="primary" onClick={handleLogin} className="mb-3 space">Log In</Button>
+          </Form>
+
+          {error && <Alert variant="danger">{error}</Alert>}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
