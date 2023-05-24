@@ -2,7 +2,7 @@
 
 Denna väderapplikation byggd med React ger användaren möjlighet att välja en stad från en lista och få aktuell väderinformation från OpenWeatherMap API. Applikationen har en inloggningssida där användaren kan logga in eller skapa ett konto. Om användaren redan är inloggad omdirigeras hen till startsidan.
 
-På startsidan finns ett skrivfält där användaren kan ange stadens namn för att hämta väderinformation. Det finns även en knapp för att hämta vädret och en knapp för att spara staden som favorit i Firebase. Vidare finns det en knapp för att spara historik och en knapp för att logga ut, som tar användaren tillbaka till inloggningssidan.
+På startsidan finns ett skrivfält där användaren kan välja en stad från listan för att hämta väderinformation. Det finns även en knapp för att hämta vädret för det valda staden och en knapp för att spara staden med dess värderinformtion som favorit i database --> Firebase. Vidare finns det en knapp för att spara väder historik och en knapp för att logga ut, som tar användaren tillbaka till inloggningssidan.
 
 Applikationen tillhandahåller också funktioner för att visa tidigare sökningar och sparade favoritplatser. Användaren kan se en historik över tidigare sökningar så länge hen är inloggad. Dessutom kan användaren se sparade favoritplatser tillsammans med deras väderinformation.
 
@@ -11,7 +11,7 @@ Detta är en responsiv applikation som anpassar sig till olika skärmstorlekar o
 
 ## Valet av react och jamförelsen med [https://vuejs.org/] och [https://angular.io/]
 
- Nedanför diskuteras några aspekter som kan vara avgörande för valet av React framför de andra ramverken som nämns ovan (Vue och Angular).
+Nedanför diskuteras några aspekter som kan vara avgörande för valet av React framför de andra ramverken som nämns ovan (Vue och Angular).
 
 1. Popularitet och användarbas:
 React är ett av de mest populära ramverken för att bygga användargränssnitt och har en stor och aktiv användarbas. Det innebär att det finns ett omfattande ekosystem med verktyg, bibliotek och resurser tillgängliga för utvecklare. Den stora användarbasen gör det också lättare att hitta hjälp och support vid behov.
