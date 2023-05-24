@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from './firebase';
 import { firestore } from './firebase';
 import Select from 'react-select';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { WiDaySunny, WiCloud, WiRain, WiSnow, WiThunderstorm, WiNightClear, WiNightCloudy, WiNightCloudyHigh, WiNightRain, WiNightThunderstorm, WiNightSnow } from 'react-icons/wi';
 import CityHistory from './CityHistory'; 
+import SavedPlaces from './SavedPlaces';
 
 const weatherOptions = [
   { value: 'London', label: 'London' },
@@ -25,6 +26,7 @@ const MainPage = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [cityHistory, setCityHistory] = useState([]);
+  const [savedWeatherData, setSavedWeatherData] = useState(null);
  
   
   const handleLogout = () => {
@@ -117,6 +119,77 @@ const MainPage = () => {
       setCityHistory([...cityHistory, city]);
     }
   };
+
+ 
+  //Save
+  const saveWeatherData = async () => {
+    if (weatherData) {
+      try {
+        const user = firebase.auth().currentUser;
+        if (user) {
+          const userId = user.uid;
+          const weatherRef = firestore.collection('weather').doc(userId);
+          const doc = await weatherRef.get();
+  
+          if (doc.exists) {
+            const existingData = doc.data();
+            const newData = {
+              city: selectedCity.value,
+              data: weatherData,
+              date: new Date().toLocaleDateString(),
+            };
+            const updatedData = {
+              entries: [...existingData.entries, newData],
+            };
+            await weatherRef.set(updatedData);
+            console.log('Weather data saved successfully.');
+            setSavedWeatherData(updatedData);
+          } else {
+            const initialData = {
+              entries: [
+                {
+                  city: selectedCity.value,
+                  data: weatherData,
+                  date: new Date().toLocaleDateString(),
+                },
+              ],
+            };
+            await weatherRef.set(initialData);
+            console.log('Weather data saved successfully.');
+            setSavedWeatherData(initialData);
+          }
+        } else {
+          console.log('No user is currently logged in.');
+        }
+      } catch (error) {
+        console.log('Error saving weather data:', error);
+      }
+    } else {
+      console.log('No weather data available to save.');
+    }
+  };
+  useEffect(() => {
+    const user = firebase.auth().currentUser;
+    const fetchSavedWeatherData = async () => {
+      if (user) {
+        const userId = user.uid;
+        const weatherRef = firestore.collection('weather').doc(userId);
+        weatherRef.get().then((doc) => {
+          if (doc.exists) {
+            const savedData = doc.data();
+            setSavedWeatherData(savedData);
+          } else {
+            console.log('No saved weather data found for the user.');
+          }
+        }).catch((error) => {
+          console.log('Error fetching saved weather data:', error);
+        });
+      } else {
+        console.log('No user is currently logged in.');
+      }
+    };
+     fetchSavedWeatherData();
+  }, []);
  
    
   return (
@@ -129,7 +202,7 @@ const MainPage = () => {
             handleCityHistoryClick={handleCityHistoryClick}
             handleRemoveHistory={handleRemoveHistory}
           />
-          
+           <SavedPlaces savedWeatherData={savedWeatherData} weatherIcon={weatherIcon} />
         </Col>
 
 
@@ -169,7 +242,7 @@ const MainPage = () => {
               Get Weather Data
             </Button>
 
-            <Button variant="primary">
+            <Button variant="primary" onClick={saveWeatherData}>
             Save Weather Data
             </Button>
  
