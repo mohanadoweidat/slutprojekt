@@ -6,6 +6,7 @@ import Authentication from './Authentication';
 import MainPage from './MainPage';
 import 'bootstrap/dist/css/bootstrap.css';
 
+
  
 const App = () => {
   const [user, setUser] = useState(null);

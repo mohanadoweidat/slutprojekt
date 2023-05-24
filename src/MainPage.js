@@ -4,7 +4,8 @@ import { firestore } from './firebase';
 import Select from 'react-select';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { WiDaySunny, WiCloud, WiRain, WiSnow, WiThunderstorm, WiNightClear, WiNightCloudy, WiNightCloudyHigh, WiNightRain, WiNightThunderstorm, WiNightSnow } from 'react-icons/wi';
- 
+import CityHistory from './CityHistory'; 
+
 const weatherOptions = [
   { value: 'London', label: 'London' },
   { value: 'New York', label: 'New York' },
@@ -23,6 +24,7 @@ const weatherOptions = [
 const MainPage = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [cityHistory, setCityHistory] = useState([]);
  
   
   const handleLogout = () => {
@@ -49,6 +51,7 @@ const MainPage = () => {
       if (response.ok) {
         const data = await response.json();
         setWeatherData(data);
+        addToCityHistory(city);
       } else {
         console.log('Error:', response.status);
       }
@@ -96,11 +99,41 @@ const MainPage = () => {
       return null;
     }
   };
+
+
+  //History
+  const handleCityHistoryClick = (city) => {
+    const selectedOption = weatherOptions.find((option) => option.value === city);
+
+    if (selectedOption) {
+      setSelectedCity(selectedOption);
+    }
+  };
+  const handleRemoveHistory = () => {
+    setCityHistory([]);
+  };
+  const addToCityHistory = (city) => {
+    if (!cityHistory.includes(city)) {
+      setCityHistory([...cityHistory, city]);
+    }
+  };
  
    
   return (
     <Container>
       <Row className="justify-content-center">
+
+      <Col xs={12} md={4} lg={3}>
+          <CityHistory
+            cityHistory={cityHistory}
+            handleCityHistoryClick={handleCityHistoryClick}
+            handleRemoveHistory={handleRemoveHistory}
+          />
+          
+        </Col>
+
+
+
          <Col xs={12} md={8} lg={6}>
           <h1>Welcome to WeatherCast</h1>
           
@@ -143,7 +176,6 @@ const MainPage = () => {
             <Button variant="danger" onClick={handleLogout}>
               Logout
             </Button>
- 
           </div>
         </Col>
       </Row>
