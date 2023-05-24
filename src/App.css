@@ -13,8 +13,89 @@ h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
+ 
+.button-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .space{
   margin: 5px;
 }
+
+
+
+/* History css */
+.city-history {
+  margin-bottom: 20px;
+}
+
+.city-history h3 {
+  margin-bottom: 10px;
+}
+
+.city-history p {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.city-history p:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+
+/*Saved data**/
+.saved-places {
+  margin-top: 20px;
+}
+
+.saved-weather-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.saved-weather-icon {
+  margin-right: 20px;
+}
+
+.savedweather-details {
+  flex-grow: 1;
+}
+
+.city-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.savedweather-data {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.temperature,
+.humidity,
+.wind-speed {
+  margin: 0;
+}
+
+.savedweather-description {
+  margin: 0;
+  color: #777;
+}
+
+.saved-date {
+  margin-top: 10px;
+  color: #777;
+}
+
+
   
